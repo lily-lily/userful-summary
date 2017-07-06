@@ -1,0 +1,51 @@
+webpack打包bootstrap
+使用bootstrap-loader，官网上说得很明白，官网地址：https://github.com/shakacode/bootstrap-loader，搬到这里记录一下：
+
+一、安装
+
+# 第1步安装bootstrap-loader
+npm install bootstrap-loader --save
+如果安装完毕，提示有些依赖的loader没有安装，要把它们装上。
+
+# 第2步安装bootstrap
+如果你使用的是Bootstrap3
+npm install bootstrap-sass --save
+#如果你使用的是Bootstrap4，注意上官网检查一下最新的版本。
+npm install bootstrap@v4.0.0-alpha.5 --save
+
+# 第3步 安装其他样式处理loader
+npm install css-loader node-sass resolve-url-loader sass-loader style-loader url-loader --save
+
+# 如果你使用的是Bootstrap 4,可能会需要安装个loader
+npm install postcss-loader --save
+
+二、使用
+
+如果在js中直接使用，那么：
+require('bootstrap-loader');
+
+如果想打包，那么：
+    entry : {
+        'bootstrap': 'bootstrap-loader'
+    },
+
+三、除错
+
+　　如果打包时，报很多红色的错误，什么.eot文件中有非法字符， Unexpected character '�'，云云。
+　　这个是由于没有设置字体的加载器，设置一下就可以了。
+    module: {
+        // 加载器配置
+        loaders: [
+        {test: /\.js$/,loader: 'babel-loader!jsx-loader?harmony' },
+        {test: /\.css$/,loader: 'style-loader!css-loader'},
+        {test: /\.scss$/, loaders:['style','css','sass']},
+        {test: /\.(png|jpe?g|ico|bmp|gif)$/,loader: 'file?&limit=10000name=/img/[name].[ext]?[hash]'},  
+        {test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/ ,loader : 'file?limit=10000&mimetype=application/font-woff&name=/font/[name]-[hash:8].[ext]'},  
+        {test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/, loader : 'file?name=/font/[name]-[hash:8].[ext]'},  
+        ]        
+    },
+
+
+四、网页
+
+　　打包输出中指定了bootstrap打包结果的文件，如果使用html自动生成插件，则修改配置，如果没有使用，在html文件中增加<script>就可以了。
