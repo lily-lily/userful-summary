@@ -1,0 +1,29 @@
+1.针对ie8以下以及360兼容模式的判断提示
+
+		var browser = navigator.appName;
+                var b_version = navigator.appVersion;
+                var version = b_version.split(";");
+                var trim_Version = version[1].replace(/[ ]/g, "");
+                //浏览器不兼容提示 2017-7-6 孙慧丽
+                var is360 = false;  
+                var isIE = false;
+                if (window.navigator.appName.indexOf("Microsoft") != -1) {
+                    isIE = true;
+                }
+                console.log(window.navigator.appVersion)
+                if (isIE && (window.navigator.userProfile + '') == "null") {  //window.navigator.userProfile  == undefined 兼容模式9以上
+                    is360 = true;
+                }
+                if (is360 && window.navigator.userAgent.indexOf('compatible') != -1) {  //判断是否是360兼容模式提示 2017-7-6
+                    var m_msg = "您使用的IE浏览器或IE内核版本过低，无法正常使用系统，请升级至IE8及以上版本或使用360浏览器极速模式！";
+                    alert(m_msg);
+                    $("#login-btn").unbind("click").bind("click", function () {
+                        alert(m_msg);
+                    });
+                } else if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0") { //判断是否是IE7版本提示 2017-7-6
+                    var m_msg = "您使用的IE浏览器或IE内核版本过低，无法正常使用系统，请升级至IE8及以上版本或使用360浏览器极速模式！";
+                    alert(m_msg);
+                    $("#login-btn").unbind("click").bind("click", function () {
+                        alert(m_msg);
+                    });
+                }
