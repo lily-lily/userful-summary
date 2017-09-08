@@ -42,24 +42,30 @@
                     });
                 }
 		
-2.各个浏览器兼容toFixed的方法
-Number.prototype.toFixed = function(s) 
-{ 
-changenum=(parseInt(this * Math.pow( 10, s ) + 0.5)/ Math.pow( 10, s )).toString(); 
-index=changenum.indexOf("."); 
-if(index<0&&s>0){ 
-changenum=changenum+"."; 
-for(i=0;i<s;i++){ 
-changenum=changenum+"0"; 
-} 
+2.各个浏览器兼容toFixed的方法（兼容负数）
+Number.prototype.toFixed = function (len) {
+    var that = this, s, index;
+    // 负数
+    if (this < 0) {
+        that = -that;
+    }
+    s = (parseInt(that * Math.pow(10, len) + 0.5) / Math.pow(10, len)).toString();
+    index = s.indexOf(".");
+    if (index < 0 && len > 0) {
+        s = s + ".";
+        for (i = 0; i < len; i++) {
+            s = s + "0";
+        }
 
-}else { 
-index=changenum.length-index; 
-for(i=0;i<(s-index)+1;i++){ 
-changenum=changenum+"0"; 
-} 
-
-} 
-
-return changenum; 
-}
+    } else {
+        index = s.length - index;
+        for (i = 0; i < (len - index) + 1; i++) {
+            s = s + "0";
+        }
+    }
+    if (this < 0) {
+        return -s;
+    } else {
+        return s;
+    }
+};
